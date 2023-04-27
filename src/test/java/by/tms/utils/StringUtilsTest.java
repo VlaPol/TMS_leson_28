@@ -1,112 +1,120 @@
 package by.tms.utils;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class StringUtilsTest {
 
-    private static char [] inputArray;
-
-    @BeforeEach
-    public void prepareArray(){
-        inputArray = new char[]{'h','e','l',' ', 'w'};
-    }
-
-
-    @Test
-    void shouldPrintStringWithoutGoToTheNextLine() {
-
-    }
-
-    @Test
-    void println() {
-    }
+    private static final char[] inputArray = new char[]{'h', 'e', 'l', ' ', 'w'};
 
     @Test
     void shouldReturnFalseIfNotEmptyArray() {
-
-        assertEquals(false, StringUtils.isBlank(inputArray));
+        assertFalse(StringUtils.isBlank(inputArray));
     }
 
     @Test
     void shouldReturnTrueIfIsEmpty() {
-        inputArray = new char[]{};
-        assertEquals(true, StringUtils.isBlank(inputArray));
+        char[] emptyArray = new char[]{};
+        assertTrue(StringUtils.isBlank(emptyArray));
     }
 
     @Test
     void shouldReturnTrueIfStringHasAllRussianCharacters() {
-        inputArray = new char[]{'ы','я','о'};
-        assertEquals(true, StringUtils.isRussian(inputArray));
+        char[] russianArray = new char[]{'ы', 'я', 'о'};
+        assertTrue(StringUtils.isRussian(russianArray));
     }
 
     @Test
     void shouldReturnFalseIfStringHasRussianAndOtherCharacters() {
-        inputArray = new char[]{'ы','1','I','#'};
-        assertEquals(false, StringUtils.isRussian(inputArray));
+        char[] mixedArray = new char[]{'ы', '1', 'I', '#'};
+        assertFalse(StringUtils.isRussian(mixedArray));
     }
 
     @Test
     void shouldReturnFalseIfStringHasNoRussianCharacter() {
-        assertEquals(false, StringUtils.isRussian(inputArray));
+        assertFalse(StringUtils.isRussian(inputArray));
     }
 
     @Test
     void shouldReturnFalseIfSubstringLengthMoreThanMainString() {
-        char [] substring = new char[]{'n','e','w',' ','s','u','b'};
-        assertEquals(false, StringUtils.contains(inputArray, substring));
+        char[] substring = new char[]{'n', 'e', 'w', ' ', 's', 'u', 'b'};
+        assertFalse(StringUtils.contains(inputArray, substring));
 
     }
 
     @Test
     void shouldReturnTrueIfSubstringLengthIsEmpty() {
-        char [] substring = new char[]{};
-        assertEquals(true, StringUtils.contains(inputArray, substring));
+        char[] substring = new char[]{};
+        assertTrue(StringUtils.contains(inputArray, substring));
 
     }
 
     @Test
     void shouldReturnTrueIfSubstringAdMainStringsLengthAreZero() {
-        char [] substring = new char[]{};
-        char [] inputArray = new char[]{};
-        assertEquals(true, StringUtils.contains(inputArray, substring));
+        char[] substring = new char[]{};
+        char[] inputArray = new char[]{};
+        assertTrue(StringUtils.contains(inputArray, substring));
 
     }
 
     @Test
-    void shouldReturnFalseIfMainStringsLengthIsZero() {
-        char [] substring = new char[]{'1','2'};
-        char [] inputArray = new char[]{};
-        assertEquals(false, StringUtils.contains(inputArray, substring));
+    void shouldReturnFalseIfMainStringsLessThenSubstring() {
+        char[] substring = new char[]{'1', '2'};
+        char[] inputArray = new char[]{};
+        assertFalse(StringUtils.contains(inputArray, substring));
 
     }
 
     @Test
     void shouldReturnTrueIfSubstringIsPartOfMainString() {
-        char [] substring = new char[]{'e','l',' '};
-        assertEquals(true, StringUtils.contains(inputArray, substring));
+        char[] substring = new char[]{'e', 'l', ' '};
+        assertTrue(StringUtils.contains(inputArray, substring));
     }
 
     @Test
     void shouldReturnFalseIfSubstringIsNotPartOfMainString() {
-        char [] substring = new char[]{'z','l','o'};
-        assertEquals(false, StringUtils.contains(inputArray, substring));
+        char[] substring = new char[]{'z', 'l', 'o'};
+        assertFalse(StringUtils.contains(inputArray, substring));
     }
 
     @Test
     void shouldReturnNumberIfStringConsistOnlyDigits() {
-        inputArray = new char[]{'1','2','3'};
-        int result = StringUtils.parseInt(inputArray);
-        assert(123 == result );
+        char[] digitArray = new char[]{'1', '2', '3'};
+        int result = StringUtils.parseInt(digitArray);
+        assert (123 == result);
     }
 
     @Test
     void shouldThrowExceptionIfStringConsistNotOnlyDigits() {
-        inputArray = new char[]{'1','g','3'};
+        char[] digitMixedArray = new char[]{'1', 'g', '3'};
 
         assertThrows(IllegalArgumentException.class,
-                ()->StringUtils.parseInt(inputArray));
+                () -> StringUtils.parseInt(digitMixedArray));
     }
+
+    @Test
+    void shouldReturnFalseIfStringHasBlanksCharacters() {
+        char[] emptyArray = new char[]{'\n', '\t'};
+        assertTrue(StringUtils.isBlank(emptyArray));
+    }
+
+    @Test
+    void shouldReturnTrueIfAllLowerCaseCharAreRussian() {
+        char[] lowerRussianCharacters = new char[]{'в', 'з', 'ё', 'е'};
+        assertTrue(StringUtils.isRussian(lowerRussianCharacters));
+    }
+
+    @Test
+    void shouldReturnTrueIfAllUpperCaseCharAreRussian() {
+        char[] upperRussianCharacters = new char[]{'В', 'Н', 'Ё', 'О'};
+        assertTrue(StringUtils.isRussian(upperRussianCharacters));
+    }
+
+    @Test
+    void shouldReturnFalseIfInputArrayIsEmpty() {
+        char[] emptyArray = new char[]{};
+        assertTrue(StringUtils.isRussian(emptyArray));
+    }
+
 }
